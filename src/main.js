@@ -21,34 +21,49 @@ client.on('messageCreate', async (message) => {
         await message.channel.sendTyping()
         return tutorialForUsingBot(message) // vì bên kia reply nên truyền đối tượng message, ko phải message.content
     }
+
     if (message.content.includes("! cách dùng")){
         await message.channel.sendTyping()
         return tutorialUse(message)
     }
+
     if (message.content.includes("! thông tin chủ bot")){
         await message.channel.sendTyping()
         return informationAuthor(message)
     }
+
     if (message.content.includes("! thông tin về con bot")){
         await message.channel.sendTyping()
         return informationBot(message)
     }
 
-    if (message.content.includes("! steal from")){ // ! steal from 607183227911667746 with 1132656734251520023 to 1313376059030507590
-        const commandTarget = message.content.trim()
-        const targetId = commandTarget.substring(13,31)
-        const sourcechannelId = commandTarget.substring(37,56)
-        const destinateChannelId = commandTarget.substring(60,79)
-        await message.channel.sendTyping
-        return fetchLogDataChannelWithTarget(client, message, targetId, sourcechannelId, destinateChannelId)
+    if (message.content.includes("! steal from")) { 
+        // ! steal from 607183227911667746 with 1132656734251520023 to 1313376059030507590
+        const commandTarget = message.content.trim();
+        const parts = commandTarget.split(' ');
+    
+        const targetId = parts[3]; 
+        const sourceChannelId = parts[5]; 
+        const destinateChannelId = parts[7]; 
+        console.log(`Target ID: ${targetId}`);
+        console.log(`Source Channel ID: ${sourceChannelId}`);
+        console.log(`Destinate Channel ID: ${destinateChannelId}`);
+    
+        await message.channel.sendTyping();
+        return fetchLogDataChannelWithTarget(client, message, targetId, sourceChannelId, destinateChannelId);
     }
 
     if (message.content.includes("! fetch")){
         const command = message.content.trim()
-        const sourchannelId = command.substring(8,27).trim()
-        const destinateChannelId = command.substring(31,50).trim()
+        const parts = command.split(' ')
+
+        const sourceChannelId = parts[2]
+        const destinateChannelId = parts[4]
+        console.log(`Source Channel ID: ${sourceChannelId}`);
+        console.log(`Destinate Channel ID: ${destinateChannelId}`);
+
         await message.channel.sendTyping()
-        return fetchLogDataChannel(client, message, sourchannelId, destinateChannelId)
+        return fetchLogDataChannel(client, message, sourceChannelId, destinateChannelId)
     }
 
     try {
