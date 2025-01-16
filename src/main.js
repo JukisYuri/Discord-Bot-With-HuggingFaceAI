@@ -3,6 +3,7 @@ const { Client, GatewayIntentBits, ActivityType } = require('discord.js')
 const { tutorialForUsingBot, tutorialUse, informationAuthor, informationBot } = require('./tutorial.js')
 const { prompt } = require('./AI_prompt.js')
 const { fetchLogDataChannel } = require('./utilities/fetchdata.js')
+const { fetchLogDataChannelWithTarget } = require('./utilities/fetchdata_target.js')
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
@@ -32,6 +33,16 @@ client.on('messageCreate', async (message) => {
         await message.channel.sendTyping()
         return informationBot(message)
     }
+
+    if (message.content.includes("! steal from")){ // ! steal from 607183227911667746 with 1132656734251520023 to 1313376059030507590
+        const commandTarget = message.content.trim()
+        const targetId = commandTarget.substring(13,31)
+        const sourcechannelId = commandTarget.substring(37,56)
+        const destinateChannelId = commandTarget.substring(60,79)
+        await message.channel.sendTyping
+        return fetchLogDataChannelWithTarget(client, message, targetId, sourcechannelId, destinateChannelId)
+    }
+
     if (message.content.includes("! fetch")){
         const command = message.content.trim()
         const sourchannelId = command.substring(8,27).trim()
