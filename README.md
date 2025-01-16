@@ -18,7 +18,7 @@
        Cách lấy BOT_TOKEN? https://discord.com/developers/docs/intro
        Cách lấy HUGGINGFACE_TOKEN? https://huggingface.co/
   
-3. Cài đặt các Dependencies để update node_module nếu có (Bắt buộc phải cài NodeJS từ trước)
+3. Cài đặt các Dependencies để update node_module, nếu có (Bắt buộc phải cài NodeJS từ trước)
   ```sh
   npm install 
   ```
