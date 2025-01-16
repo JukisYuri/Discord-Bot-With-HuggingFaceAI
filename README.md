@@ -18,11 +18,7 @@
        Cách lấy BOT_TOKEN? https://discord.com/developers/docs/intro
        Cách lấy HUGGINGFACE_TOKEN? https://huggingface.co/
   
-3. Cài đặt các Dependencies để update node_module, nếu có (Bắt buộc phải cài NodeJS từ trước)
-  ```sh
-  npm install 
-  ```
-  Khuyên dùng nodemon nếu bạn muốn code theo yêu cầu của bạn: https://www.npmjs.com/package/nodemon
+3. Khuyên dùng nodemon nếu bạn muốn code theo yêu cầu của bạn: https://www.npmjs.com/package/nodemon
   ```sh
   nodemon src/main.js
   ```
