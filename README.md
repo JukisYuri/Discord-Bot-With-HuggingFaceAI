@@ -6,7 +6,7 @@
 
 ## Thông tin
   Bot được làm bởi JukisYuri, Model: Qwen/Qwen2.5-Coder-32B-Instruct.
-  Được viết bởi sinh viên năm 2 vẫn đang học trong trường, nên sẽ còn vài cái sai sót
+  Được viết bởi sinh viên năm 2 vẫn đang học trong trường, nên sẽ còn nhiều sai sót
   
 ## Cấu hình Discord-Bot
 1. Tải (hoặc clone) repo này về
