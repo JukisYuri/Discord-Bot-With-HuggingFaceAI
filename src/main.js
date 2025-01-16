@@ -32,10 +32,12 @@ client.on('messageCreate', async (message) => {
         await message.channel.sendTyping()
         return informationBot(message)
     }
-    if (message.content.includes("! fetch log data")){
+    if (message.content.includes("! fetch")){
+        const command = message.content.trim()
+        const sourchannelId = command.substring(8,27).trim()
+        const destinateChannelId = command.substring(31,50).trim()
         await message.channel.sendTyping()
-        await message.reply("Em đã fetch xong log data")
-        await fetchLogDataChannel(client, message)
+        return fetchLogDataChannel(client, message, sourchannelId, destinateChannelId)
     }
 
     try {

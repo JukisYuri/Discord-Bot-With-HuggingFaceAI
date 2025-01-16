@@ -3,6 +3,7 @@
     "@huggingface/inference": "^2.8.1",
     "discord.js": "^14.17.3",
     "dotenv": "^16.4.5",
+    "openmeteo": "^1.1.4",
     "translatte": "^3.0.1"
   }
 }

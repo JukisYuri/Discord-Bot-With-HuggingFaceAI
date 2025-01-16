@@ -1,7 +1,6 @@
-const { destinateChannelId, sourceChannelId } = require('./permission')
 const { splitMessage } = require('../split_message')
 
-async function fetchLogDataChannel(client, message){
+async function fetchLogDataChannel(client, message, sourceChannelId, destinateChannelId){
     try{
         const sourceChannel = await client.channels.fetch(sourceChannelId)
         const destinateChannel = await client.channels.fetch(destinateChannelId)
