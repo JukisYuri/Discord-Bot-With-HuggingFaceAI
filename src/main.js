@@ -2,6 +2,7 @@ require('dotenv').config()
 const { Client, GatewayIntentBits, ActivityType } = require('discord.js')
 const { tutorialForUsingBot, tutorialUse, informationAuthor, informationBot } = require('./tutorial.js')
 const { prompt } = require('./AI_prompt.js')
+const { fetchLogDataChannel } = require('./utilities/fetchdata.js')
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
@@ -30,6 +31,11 @@ client.on('messageCreate', async (message) => {
     if (message.content.includes("! thông tin về con bot")){
         await message.channel.sendTyping()
         return informationBot(message)
+    }
+    if (message.content.includes("! fetch log data")){
+        await message.channel.sendTyping()
+        await message.reply("Em đã fetch xong log data")
+        await fetchLogDataChannel(client, message)
     }
 
     try {
