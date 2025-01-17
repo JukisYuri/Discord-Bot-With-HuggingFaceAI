@@ -4,6 +4,7 @@ const { tutorialForUsingBot, tutorialUse, informationAuthor, informationBot } = 
 const { prompt } = require('./src/AI_prompt.js')
 const { fetchLogDataChannel } = require('./src/utilities/fetchdata.js')
 const { fetchLogDataChannelWithTarget } = require('./src/utilities/fetchdata_target.js')
+const { translateChat } = require('./src/utilities/translate.js')
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
@@ -54,6 +55,7 @@ client.on('messageCreate', async (message) => {
     }
 
     if (message.content.includes("! fetch")){
+        // ! fetch 1132656734251520023 to 1313376059030507590
         const command = message.content.trim()
         const parts = command.split(' ')
 
@@ -64,6 +66,20 @@ client.on('messageCreate', async (message) => {
 
         await message.channel.sendTyping()
         return fetchLogDataChannel(client, message, sourceChannelId, destinateChannelId)
+    }
+
+    if (message.content.includes("! translate")){
+        // ! vi
+        const command = message.content.trim()
+        const parts = command.split(' ')
+
+        const sourceMessageId = message.reference?.messageId; // Lấy sourceMessageId bằng cách reply
+        const translateSuppose = parts[2]
+        console.log(`Source Message ID: ${sourceMessageId}`)
+        console.log(`Language Suppose: ${translateSuppose}`)
+
+        await message.channel.sendTyping()
+        return translateChat(message, sourceMessageId, translateSuppose)
     }
 
     try {
