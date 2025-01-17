@@ -1,9 +1,9 @@
 require('dotenv').config()
 const { Client, GatewayIntentBits, ActivityType } = require('discord.js')
-const { tutorialForUsingBot, tutorialUse, informationAuthor, informationBot } = require('./tutorial.js')
-const { prompt } = require('./AI_prompt.js')
-const { fetchLogDataChannel } = require('./utilities/fetchdata.js')
-const { fetchLogDataChannelWithTarget } = require('./utilities/fetchdata_target.js')
+const { tutorialForUsingBot, tutorialUse, informationAuthor, informationBot } = require('./src/tutorial.js')
+const { prompt } = require('./src/AI_prompt.js')
+const { fetchLogDataChannel } = require('./src/utilities/fetchdata.js')
+const { fetchLogDataChannelWithTarget } = require('./src/utilities/fetchdata_target.js')
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],

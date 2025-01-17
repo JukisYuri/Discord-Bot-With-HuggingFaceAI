@@ -1,4 +1,5 @@
 const { splitMessage } = require('../split_message')
+const { preventMention } = require('../prevent_mentions_users')
 
 async function fetchLogDataChannel(client, message, sourceChannelId, destinateChannelId){
     try{
@@ -9,9 +10,10 @@ async function fetchLogDataChannel(client, message, sourceChannelId, destinateCh
 
         let combinedMessage = ''
         fetchRequest.forEach((msg) => {
+            preventMention(msg)
             combinedMessage += `[${msg.createdAt.toLocaleString()}] ${msg.author.username}: ${msg.content}\n`
-        });
-
+        })
+    
         if (combinedMessage.length > 0) {
             const chunkMessage = splitMessage(combinedMessage)
             for (const chunk of chunkMessage){

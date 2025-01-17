@@ -1,4 +1,5 @@
 const { splitMessage } = require('../split_message');
+const { preventMention } = require('../prevent_mentions_users');
 
 async function fetchLogDataChannelWithTarget(client, message, targetId, sourceChannelId, destinateChannelId) {
     try {
@@ -22,6 +23,7 @@ async function fetchLogDataChannelWithTarget(client, message, targetId, sourceCh
             fetchRequest.forEach((msg) => {
                 // Chỉ lấy tin nhắn của người dùng mục tiêu
                 if (msg.author.id === target.id) {
+                    preventMention(msg)
                     combinedMessage += `[${msg.createdAt.toLocaleString()}] ${msg.author.username}: ${msg.content}\n`;
                     messagesFetched++;
                 }
