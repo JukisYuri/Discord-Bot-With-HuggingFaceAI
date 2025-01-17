@@ -23,11 +23,11 @@
   ``` 
 4. Khuyên dùng nodemon nếu bạn muốn code theo yêu cầu của bạn: https://www.npmjs.com/package/nodemon
   ```sh
-  nodemon src/main.js
+  nodemon index.js
   ```
 
 ## Cách sử dụng
-1. Tệp main.js là tệp chính để khởi động con bot trong Discord
+1. Tệp index.js là tệp chính để khởi động con bot trong Discord
 2. Bạn có thể tự mình tiếp tục phát triển thêm dự án của chủ sở hữu hoặc contribute
 3. Tệp tutorial.js dùng để chứa những câu lệnh hướng dẫn cách dùng thông qua lệnh ! help
    
