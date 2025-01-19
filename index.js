@@ -44,13 +44,13 @@ client.on('messageCreate', async (message) => {
     }
 
     if (message.content.startsWith("! steal")) { 
-        // ! steal from 607183227911667746 from 1132656734251520023 to 1313376059030507590
+        // ! steal 607183227911667746 from 1132656734251520023 to 1313376059030507590
         const command = message.content.trim();
         const parts = command.split(' ');
     
-        const targetId = parts[3]; 
-        const sourceChannelId = parts[5]; 
-        const destinateChannelId = parts[7]; 
+        const targetId = parts[2]; 
+        const sourceChannelId = parts[4]; 
+        const destinateChannelId = parts[6]; 
         console.log(`Target ID: ${targetId}`);
         console.log(`Source Channel ID: ${sourceChannelId}`);
         console.log(`Destinate Channel ID: ${destinateChannelId}`);

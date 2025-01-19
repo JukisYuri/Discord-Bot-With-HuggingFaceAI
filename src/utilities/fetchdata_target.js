@@ -24,7 +24,7 @@ async function fetchLogDataChannelWithTarget(client, message, targetId, sourceCh
                 // Chỉ lấy tin nhắn của người dùng mục tiêu
                 if (msg.author.id === target.id) {
                     preventMention(msg)
-                    combinedMessage += `[${msg.createdAt.toLocaleString()}] ${msg.author.username}: ${msg.content}\n`;
+                    combinedMessage += `[${msg.createdAt.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}] ${msg.author.username}: ${msg.content}\n`;
                     messagesFetched++;
                 }
             });

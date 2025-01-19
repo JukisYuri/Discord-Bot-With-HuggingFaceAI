@@ -11,10 +11,9 @@ module.exports = (client, trackedUsers) => {
             try {
                 const destinateChannel = await client.channels.fetch(trackedInfo.destinateChannelId);
 
-                const logMessage = `[${message.createdAt.toLocaleString()} ,${message.channel.name}] ${message.author.username}: ${message.content}\n`;
+                const logMessage = `[${message.createdAt.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })} ,${message.channel.name}] ${message.author.username}: ${message.content}\n`;
 
                 await destinateChannel.send(logMessage)
-                console.log(`Đã gửi log tin nhắn từ ${message.author.id} tới kênh ${trackedInfo.destinateChannelId}`);
             } catch (error) {
                 console.error('Lỗi khi gửi log tin nhắn:', error);
             }

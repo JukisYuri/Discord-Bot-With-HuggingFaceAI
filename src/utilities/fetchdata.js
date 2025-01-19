@@ -11,7 +11,7 @@ async function fetchLogDataChannel(client, message, sourceChannelId, destinateCh
         let combinedMessage = ''
         fetchRequest.forEach((msg) => {
             preventMention(msg)
-            combinedMessage += `[${msg.createdAt.toLocaleString()}] ${msg.author.username}: ${msg.content}\n`
+            combinedMessage += `[${msg.createdAt.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}] ${msg.author.username}: ${msg.content}\n`
         })
     
         if (combinedMessage.length > 0) {
