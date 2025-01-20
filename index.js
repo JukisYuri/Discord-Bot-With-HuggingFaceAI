@@ -1,5 +1,5 @@
 require('dotenv').config()
-const { Client, GatewayIntentBits, ActivityType, GuildChannel } = require('discord.js')
+const { Client, GatewayIntentBits, ActivityType } = require('discord.js')
 const { tutorialForUsingBot, tutorialUse, informationAuthor, informationBot } = require('./src/tutorial.js')
 const { prompt } = require('./src/AI_prompt.js')
 const { fetchLogDataChannel } = require('./src/utilities/fetchdata.js')
@@ -87,32 +87,60 @@ client.on('messageCreate', async (message) => {
         return translateChat(message, sourceMessageId, translateSuppose)
     }
 
-    // Lệnh để theo dõi người dùng
+    // Lệnh để theo dõi người dùng trong 1 server nhất định
     if (message.content.startsWith("! track")){
-        // ! tracker <User ID> from <Server ID> to <Destinate Channel ID>
+        // ! track <User ID> from <Server ID> to <Destinate Channel ID>
         const command = message.content.trim()
         const parts = command.split(' ');
 
         const userId = parts[2]
         const serverId = parts[4]
         const destinateChannelId = parts[6]
-
+        await message.channel.sendTyping()
+        if (trackedUsers.has(userId) && trackedUsers.has(serverId) && trackedUsers.has(destinateChannelId)){
+            await message.reply("UserID này đã có từ trước, không thể thêm vào nữa")
+            return;
+        } else {
         const guildName = await client.guilds.fetch(serverId)
         trackedUsers.set(userId, {serverId, destinateChannelId})
-        await message.channel.sendTyping()
         return message.channel.send(`Đã theo dõi người dùng được chỉ định thành công trong server **${guildName}**`)
+        }
+    }
+
+    if (message.content.startsWith("! list-tracking")){
+        // ! list-tracking
+        await message.channel.sendTyping()
+        if (trackedUsers.size > 0){
+            let trackingList = "**Danh sách người dùng theo dõi:**\n"
+            trackedUsers.forEach((value, key) => {
+                trackingList += `- UserID: ${key}, ServerID: ${value.serverId}, DestinateChannelID: ${value.destinateChannelId}\n`;
+            })
+            return message.reply(trackingList)
+        } else {
+            return message.reply("Không có người nào được track")
+        }
+    }
+
+    if (message.content.startsWith("! reset list-tracking")){
+        await message.channel.sendTyping()
+        if (trackedUsers.size > 0){
+            trackedUsers.clear()
+            return message.reply("Đã xoá hết dữ liệu trong list-tracking")
+        } else {
+            return message.reply("Không có dữ liệu nào được tìm thấy")
+        }
     }
 
     // Lệnh để hủy theo dõi người dùng
     if (message.content.startsWith("! untrack")) {
-        // ! untracker <User ID>
-        const command = message.content.trim();
-        const parts = command.split(' '); 
+        // ! untrack <User ID>
+        const command = message.content.trim()
+        const parts = command.split(' ')
 
         const userId = parts[2];
-        console.log(`User ID cần xóa: ${userId}`);
+        console.log(`User ID cần xóa: ${userId}`)
         if (trackedUsers.has(userId)) {
-            trackedUsers.delete(userId);
+            trackedUsers.delete(userId)
             await message.channel.sendTyping()
             await message.reply(`Đã hủy theo dõi người dùng <@${userId}>.`);
         } else {

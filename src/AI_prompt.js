@@ -1,4 +1,4 @@
-const { splitMessage } = require('./split_message')
+const { splitMessage } = require('./helper/split_message')
 const { HfInference } = require('@huggingface/inference');
 
 const hf = new HfInference(process.env.HUGGINGFACE_TOKEN);

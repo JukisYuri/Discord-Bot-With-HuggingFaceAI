@@ -1,5 +1,5 @@
-const { splitMessage } = require('../split_message')
-const { preventMention } = require('../prevent_mentions_users')
+const { splitMessage } = require('../helper/split_message')
+const { preventMention } = require('../helper/prevent_mentions_users')
 
 async function fetchLogDataChannel(client, message, sourceChannelId, destinateChannelId){
     try{
