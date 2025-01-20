@@ -46,7 +46,7 @@ client.on('messageCreate', async (message) => {
     if (message.content.startsWith("! steal")) { 
         // ! steal 607183227911667746 from 1132656734251520023 to 1313376059030507590
         const command = message.content.trim();
-        const parts = command.split(' ');
+        const parts = command.split(/\s+/);
     
         const targetId = parts[2]; 
         const sourceChannelId = parts[4]; 
@@ -62,7 +62,7 @@ client.on('messageCreate', async (message) => {
     if (message.content.startsWith("! fetch")){
         // ! fetch 1132656734251520023 to 1313376059030507590
         const command = message.content.trim()
-        const parts = command.split(' ');
+        const parts = command.split(/\s+/);
 
         const sourceChannelId = parts[2]
         const destinateChannelId = parts[4]
@@ -76,7 +76,7 @@ client.on('messageCreate', async (message) => {
     if (message.content.startsWith("! translate")){
         // ! translate vi
         const command = message.content.trim()
-        const parts = command.split(' ');
+        const parts = command.split(/\s+/);
 
         const sourceMessageId = message.reference?.messageId; // Lấy sourceMessageId bằng cách reply
         const translateSuppose = parts[2]
@@ -87,21 +87,26 @@ client.on('messageCreate', async (message) => {
         return translateChat(message, sourceMessageId, translateSuppose)
     }
 
-    // Lệnh để theo dõi người dùng trong 1 server nhất định
+    // Lệnh để theo dõi người dùng trong 1 server nhất định hoặc global
     if (message.content.startsWith("! track")){
         // ! track <User ID> from <Server ID> to <Destinate Channel ID>
+        // ! track <User ID> from global to <Destinate Channel ID>
         const command = message.content.trim()
-        const parts = command.split(' ');
+        const parts = command.split(/\s+/);
 
         const userId = parts[2]
-        const serverId = parts[4]
+        const serverId = parts[4].toLocaleLowerCase()
         const destinateChannelId = parts[6]
         await message.channel.sendTyping()
-        if (trackedUsers.has(userId) && trackedUsers.has(serverId) && trackedUsers.has(destinateChannelId)){
-            await message.reply("UserID này đã có từ trước, không thể thêm vào nữa")
+        if ( trackedUsers.has(userId) 
+            && ((serverId === "global" && trackedUsers.get(userId).serverId === "global") 
+            || trackedUsers.get(userId).serverId === serverId)) {  
+            await message.reply("UserID này đã được theo dõi trước đó, không thể thêm vào nữa.");
             return;
         } else {
-        const guildName = await client.guilds.fetch(serverId)
+        // Xử lý serverId là "global" hoặc server cụ thể
+        const guildName = serverId === "global" ? "Tất cả server" : (await client.guilds.fetch(serverId)).name
+
         trackedUsers.set(userId, {serverId, destinateChannelId})
         return message.channel.send(`Đã theo dõi người dùng được chỉ định thành công trong server **${guildName}**`)
         }
@@ -121,6 +126,22 @@ client.on('messageCreate', async (message) => {
         }
     }
 
+    if (message.content.startsWith("! moveall list-tracking")){
+        // ! moveall list-tracking <Destinate Channel ID>
+        const parts = message.content.trim().split(/\s+/)
+        const newDestinateChannelId = parts[3]
+
+        await message.channel.sendTyping()
+        if (trackedUsers.size > 0) {
+            // Duyệt qua tất cả các userId trong trackedUsers và cập nhật destinateChannelId
+            trackedUsers.forEach((value, key) => {
+                // value là { serverId, destinateChannelId }
+                trackedUsers.set(key, { ...value, destinateChannelId: newDestinateChannelId })
+            });
+        return message.reply("Đã di chuyển hết toàn bộ các UserID chuyển sang kênh đích mới")
+    }
+}
+
     if (message.content.startsWith("! reset list-tracking")){
         await message.channel.sendTyping()
         if (trackedUsers.size > 0){
@@ -135,7 +156,7 @@ client.on('messageCreate', async (message) => {
     if (message.content.startsWith("! untrack")) {
         // ! untrack <User ID>
         const command = message.content.trim()
-        const parts = command.split(' ')
+        const parts = command.split(/\s+/)
 
         const userId = parts[2];
         console.log(`User ID cần xóa: ${userId}`)

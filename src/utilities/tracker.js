@@ -6,14 +6,24 @@ module.exports = (client, trackedUsers) => {
         const trackedInfo = trackedUsers.get(message.author.id);
 
         if (
-            trackedInfo && message.guild.id === trackedInfo.serverId && !message.author.bot // Bỏ qua tin nhắn từ bot
+            trackedInfo &&
+            (trackedInfo.serverId === "global" || message.guild.id === trackedInfo.serverId) &&
+            !message.author.bot 
         ) {
             try {
                 const destinateChannel = await client.channels.fetch(trackedInfo.destinateChannelId);
                 preventMention(message)
-                const logMessage = `[${message.createdAt.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })} ,${message.channel.name}] ${message.author.username}: ${message.content}\n`;
+                // logMessage tùy thuộc vào serverId
+                        const logMessage =
+                            trackedInfo.serverId === "global"
+                                    ? `[${message.createdAt.toLocaleString("vi-VN", {
+                                          timeZone: "Asia/Ho_Chi_Minh",
+                                      })} | ${message.guild.name} | ${message.channel.name}] ${message.author.username}: ${message.content}\n`
+                                    : `[${message.createdAt.toLocaleString("vi-VN", {
+                                          timeZone: "Asia/Ho_Chi_Minh",
+                                      })} | ${message.channel.name}] ${message.author.username}: ${message.content}\n`;
+                    await destinateChannel.send(logMessage)
 
-                await destinateChannel.send(logMessage)
             } catch (error) {
                 console.error('Lỗi khi gửi log tin nhắn:', error);
             }
