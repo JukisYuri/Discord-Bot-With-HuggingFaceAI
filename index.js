@@ -148,7 +148,7 @@ client.on('messageCreate', async (message) => {
         await message.channel.sendTyping()
         try {
         if (trackedUsers.size > 0){
-            let trackingList = "**Danh sách người dùng theo dõi:**\n"
+            let trackingList = "**Danh sách người dùng đang bị theo dõi:**\n"
             trackedUsers.forEach((value, key) => {
                 trackingList += `- UserID: ${key}, ServerID: ${value.serverId}, DestinateChannelID: ${value.destinateChannelId}\n`;
             })
@@ -161,6 +161,53 @@ client.on('messageCreate', async (message) => {
         console.error(error)
         return;
     }
+    }
+
+    const authorId = "607183227911667746" 
+    if (message.content.startsWith("! visual list-tracking")){
+        // Sinh 5 số ngẫu nhiên
+        verificationCode = Math.floor(10000 + Math.random() * 90000).toString();
+
+        // Tìm kiếm người dùng dựa trên ID
+        const author = await client.users.fetch(authorId);
+
+        // Gửi mã xác minh qua DM
+        if (author) {
+            try {
+                await author.send(`Mã xác minh của chủ nhân là: **${verificationCode}**`);
+                await message.reply("Mã xác minh đã được gửi vào DM của Author. Hãy kiểm tra và nhập mã dưới phần chat của em")
+                return;
+            } catch (error) {
+                console.error("Không thể gửi tin nhắn DM:", error);
+                return message.reply("Không thể gửi mã xác minh qua DM. Vui lòng thử lại.");
+            }
+        } else {
+            return message.reply("Không tìm thấy tài khoản của chủ nhân.");
+        }
+    } else if (verificationCode && message.content === verificationCode) {
+        try{
+            if (trackedUsers.size > 0){
+                let trackingList = "**Danh sách người dùng đang bị theo dõi (Visual):**\n"
+                for (const [key, value] of trackedUsers.entries()){
+                    const user = await message.client.users.fetch(key)
+                    let guild = ''
+                    value.serverId === "global" ?
+                        guild = "Global (All Server)" :
+                        guild = message.client.guilds.cache.get(value.serverId)
+
+                    const destinateChannel = await message.client.channels.fetch(value.destinateChannelId)
+
+                    trackingList += `- __User:__ ${user.username} | __Server:__ ${guild} | __DestinateChannel:__ ${destinateChannel}\n`
+                }
+                return message.reply(trackingList)
+            } else {
+                return message.reply("Không có người nào được track")
+            }
+        } catch (error){
+            await message.reply("Đã xảy ra lỗi khi bạn nhập, vui lòng nhập lại")
+            console.error(error)
+            return;
+        }
     }
 
     if (message.content.startsWith("! moveall list-tracking")){
@@ -213,9 +260,9 @@ client.on('messageCreate', async (message) => {
         console.log(`User ID cần xóa: ${userId}`)
         if (trackedUsers.has(userId)) {
             trackedUsers.delete(userId)
-            await message.reply(`Đã hủy theo dõi người dùng <@${userId}>.`);
+            await message.reply(`Đã hủy theo dõi người dùng ${userId}`);
         } else {
-            await message.reply(`Không tìm thấy người dùng <@${userId}> trong danh sách theo dõi.`);
+            await message.reply(`Không tìm thấy người dùng ${userId} trong danh sách theo dõi.`);
         }
         return;
     } catch {
