@@ -1,5 +1,5 @@
 const { splitMessage } = require('../helper/split_message')
-const { preventMention } = require('../helper/prevent_mentions_users')
+const { preventMention, preventMentionRole } = require('../helper/prevent_mentions_users')
 
 async function fetchLogDataChannel(client, message, sourceChannelId, destinateChannelId){
     try{
@@ -11,6 +11,7 @@ async function fetchLogDataChannel(client, message, sourceChannelId, destinateCh
         let combinedMessage = ''
         fetchRequest.forEach((msg) => {
             preventMention(msg)
+            preventMentionRole(msg)
             combinedMessage += `[${msg.createdAt.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}] ${msg.author.username}: ${msg.content}\n`
         })
     

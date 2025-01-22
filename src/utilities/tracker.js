@@ -1,4 +1,4 @@
-const { preventMention } = require("../helper/prevent_mentions_users");
+const { preventMention, preventMentionRole } = require("../helper/prevent_mentions_users");
 
 module.exports = (client, trackedUsers) => {
     client.on('messageCreate', async (message) => {
@@ -13,6 +13,7 @@ module.exports = (client, trackedUsers) => {
             try {
                 const destinateChannel = await client.channels.fetch(trackedInfo.destinateChannelId);
                 preventMention(message)
+                preventMentionRole(message)
                 // logMessage tùy thuộc vào serverId
                         const logMessage =
                             trackedInfo.serverId === "global"
