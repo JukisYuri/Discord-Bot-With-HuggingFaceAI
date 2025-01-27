@@ -168,7 +168,7 @@ client.on('messageCreate', async (message) => {
                     });
                 }
             });
-            return message.reply(`✅ Đã theo dõi thành công toàn bộ tất cả thành viên trong ${guildName}`)
+            return message.reply(`✅ Đã theo dõi thành công toàn bộ tất cả thành viên trong **${guildName}**`)
         } catch (error){
             console.error(error)
             await message.reply("⚠️ Đã xảy ra lỗi khi bạn nhập, vui lòng nhập lại")

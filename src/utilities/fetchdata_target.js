@@ -1,6 +1,6 @@
 const { splitMessage } = require('../helper/split_message');
 const { preventMention, preventMentionRole } = require('../helper/prevent_mentions_users');
-const { ms } = require('translatte/languages');
+const { sendAttachment } = require('../helper/attachment');
 
 async function fetchLogDataChannelWithTarget(client, message, targetId, sourceChannelId, destinateChannelId) {
     try {
@@ -26,7 +26,8 @@ async function fetchLogDataChannelWithTarget(client, message, targetId, sourceCh
                 if (msg.author.id === target.id) {
                     preventMention(msg)
                     preventMentionRole(msg)
-                    combinedMessage += `[${msg.createdAt.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}] ${msg.author.username}: ${msg.content}\n`;
+                    const attachment = sendAttachment(msg)
+                    combinedMessage += `[${msg.createdAt.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}] ${msg.author.username}: ${msg.content} ${attachment}\n`;
                     messagesFetched++;
                 }
             });

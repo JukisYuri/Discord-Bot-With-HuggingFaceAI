@@ -1,5 +1,6 @@
 const { splitMessage } = require('../helper/split_message')
 const { preventMention, preventMentionRole } = require('../helper/prevent_mentions_users')
+const { sendAttachment } = require('../helper/attachment')
 
 async function fetchLogDataChannel(client, message, sourceChannelId, destinateChannelId){
     try{
@@ -12,7 +13,8 @@ async function fetchLogDataChannel(client, message, sourceChannelId, destinateCh
         fetchRequest.forEach((msg) => {
             preventMention(msg)
             preventMentionRole(msg)
-            combinedMessage += `[${msg.createdAt.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}] ${msg.author.username}: ${msg.content}\n`
+            const attachment = sendAttachment(msg)
+            combinedMessage += `[${msg.createdAt.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}] ${msg.author.username}: ${msg.content} ${attachment}\n`
         })
     
         if (combinedMessage.length > 0) {

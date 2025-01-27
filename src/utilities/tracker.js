@@ -1,3 +1,4 @@
+const { sendAttachment } = require("../helper/attachment");
 const { preventMention, preventMentionRole } = require("../helper/prevent_mentions_users");
 
 module.exports = (client, trackedUsers) => {
@@ -15,14 +16,15 @@ module.exports = (client, trackedUsers) => {
                 preventMention(message)
                 preventMentionRole(message)
                 // logMessage tùy thuộc vào serverId
-                        const logMessage =
+                        let logMessage =
                             trackedInfo.serverId === "global"
                                     ? `[${message.createdAt.toLocaleString("vi-VN", {
                                           timeZone: "Asia/Ho_Chi_Minh",
                                       })} | ${message.guild.name} | ${message.channel.name}] ${message.author.username}: ${message.content}\n`
                                     : `[${message.createdAt.toLocaleString("vi-VN", {
                                           timeZone: "Asia/Ho_Chi_Minh",
-                                      })} | ${message.channel.name}] ${message.author.username}: ${message.content}\n`;
+                                      })} | ${message.channel.name}] ${message.author.username}: ${message.content}\n`
+                    logMessage += sendAttachment(message)
                     await destinateChannel.send(logMessage)
 
             } catch (error) {
