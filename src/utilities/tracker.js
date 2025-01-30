@@ -1,10 +1,10 @@
 const { sendAttachment } = require("../helper/attachment");
-const { preventMention, preventMentionRole } = require("../helper/prevent_mentions_users");
+const { preventMention, preventMentionRole, preventMentionEveryone } = require("../helper/prevent_mentions_users");
 
 module.exports = (client, trackedUsers) => {
     client.on('messageCreate', async (message) => {
         // Kiểm tra nếu user đang bị theo dõi
-        const trackedInfo = trackedUsers.get(message.author.id);
+        const trackedInfo = trackedUsers.get(message.author.id)
 
         if (
             trackedInfo &&
@@ -12,9 +12,10 @@ module.exports = (client, trackedUsers) => {
             !message.author.bot 
         ) {
             try {
-                const destinateChannel = await client.channels.fetch(trackedInfo.destinateChannelId);
+                const destinateChannel = await client.channels.fetch(trackedInfo.destinateChannelId)
                 preventMention(message)
                 preventMentionRole(message)
+                preventMentionEveryone(message)
                 // logMessage tùy thuộc vào serverId
                         let logMessage =
                             trackedInfo.serverId === "global"
@@ -28,7 +29,7 @@ module.exports = (client, trackedUsers) => {
                     await destinateChannel.send(logMessage)
 
             } catch (error) {
-                console.error('Lỗi khi gửi log tin nhắn:', error);
+                console.error('Lỗi khi gửi log tin nhắn:', error)
             }
         }
     });

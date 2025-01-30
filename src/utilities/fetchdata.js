@@ -1,5 +1,5 @@
 const { splitMessage } = require('../helper/split_message')
-const { preventMention, preventMentionRole } = require('../helper/prevent_mentions_users')
+const { preventMention, preventMentionRole, preventMentionEveryone } = require('../helper/prevent_mentions_users')
 const { sendAttachment } = require('../helper/attachment')
 
 async function fetchLogDataChannel(client, message, sourceChannelId, destinateChannelId){
@@ -13,6 +13,7 @@ async function fetchLogDataChannel(client, message, sourceChannelId, destinateCh
         fetchRequest.forEach((msg) => {
             preventMention(msg)
             preventMentionRole(msg)
+            preventMentionEveryone(msg)
             const attachment = sendAttachment(msg)
             combinedMessage += `[${msg.createdAt.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}] ${msg.author.username}: ${msg.content} ${attachment}\n`
         })
@@ -23,7 +24,7 @@ async function fetchLogDataChannel(client, message, sourceChannelId, destinateCh
                 await destinateChannel.send(chunk)
             }
         } else {
-            await message.reply('Không có tin nhắn nào trong kênh nguồn.');
+            await message.reply('Không có tin nhắn nào trong kênh nguồn.')
         }
     }
     catch(error){

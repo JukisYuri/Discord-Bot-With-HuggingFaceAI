@@ -1,11 +1,11 @@
 function sendAttachment(msg) {
     if (!msg.attachments || !msg || msg.attachments.size === 0){
-        return '';
+        return ''
     }
-    let attachmentLinks = '';
+    let attachmentLinks = ''
         msg.attachments.forEach((attachment) => {
-        attachmentLinks += `${attachment.url}\n`;
-        });
+        attachmentLinks += `${attachment.url}\n`
+        })
     return attachmentLinks; // Trả về các đường dẫn file đính kèm
 }
 

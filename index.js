@@ -12,12 +12,12 @@ const { splitMessage } = require('./src/helper/split_message.js')
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers],
-});
+})
 
 client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    client.user.setActivity('đoạn mã thiểu năng đang được viết', { type: ActivityType.Watching });
-});
+    client.user.setActivity('Happy Lunar New Year', { type: ActivityType.Watching })
+})
 
 const authorId = "607183227911667746"
 const trackedUsers = new Map() 
@@ -48,18 +48,18 @@ client.on('messageCreate', async (message) => {
 
     if (message.content.startsWith("! steal")) { 
         // ! steal 607183227911667746 from 1132656734251520023 to 1313376059030507590
-        const command = message.content.trim();
-        const parts = command.split(/\s+/);
+        const command = message.content.trim()
+        const parts = command.split(/\s+/)
         await message.channel.sendTyping()
 
         try {
-        const targetId = parts[2]; 
-        const sourceChannelId = parts[4]; 
-        const destinateChannelId = parts[6]; 
+        const targetId = parts[2]
+        const sourceChannelId = parts[4]
+        const destinateChannelId = parts[6]
 
-        console.log(`Target ID: ${targetId}`);
-        console.log(`Source Channel ID: ${sourceChannelId}`);
-        console.log(`Destinate Channel ID: ${destinateChannelId}`);
+        console.log(`Target ID: ${targetId}`)
+        console.log(`Source Channel ID: ${sourceChannelId}`)
+        console.log(`Destinate Channel ID: ${destinateChannelId}`)
     
         return fetchLogDataChannelWithTarget(client, message, targetId, sourceChannelId, destinateChannelId);
         } catch (error){
@@ -72,7 +72,7 @@ client.on('messageCreate', async (message) => {
     if (message.content.startsWith("! fetch")){
         // ! fetch 1132656734251520023 to 1313376059030507590
         const command = message.content.trim()
-        const parts = command.split(/\s+/);
+        const parts = command.split(/\s+/)
         await message.channel.sendTyping()
 
         try {
@@ -97,7 +97,7 @@ client.on('messageCreate', async (message) => {
     if (message.content.startsWith("! translate")){
         // ! translate vi
         const command = message.content.trim()
-        const parts = command.split(/\s+/);
+        const parts = command.split(/\s+/)
         await message.channel.sendTyping()
 
         try {
@@ -119,7 +119,7 @@ client.on('messageCreate', async (message) => {
         // ! track <User ID> from <Server ID> to <Destinate Channel ID>
         // ! track <User ID> from global to <Destinate Channel ID>
         const command = message.content.trim()
-        const parts = command.split(/\s+/);
+        const parts = command.split(/\s+/)
         await message.channel.sendTyping()
 
         try {
@@ -202,7 +202,7 @@ client.on('messageCreate', async (message) => {
  
     if (message.content.startsWith("! visual list-tracking")){
         // ! visual list-tracking
-        const author = await client.users.fetch(authorId);
+        const author = await client.users.fetch(authorId)
         verificationCode = Math.floor(10000 + Math.random() * 90000).toString()
         // Gửi mã xác minh qua DM
         if (author) {
