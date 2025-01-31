@@ -23,7 +23,9 @@ function tutorialUse(message){
                 '- **! visual list-tracking**\n' +
                 'Dùng để xem danh sách người dùng đang bị theo dõi dưới dạng trực quan\n' +
                 '- **! moveall list-tracking {ID kênh đích muốn chuyển tới}**\n' +
-                'Dùng để di chuyển hết toàn bộ danh sách người dùng đang bị theo dõi sang 1 kênh đích khác để xem log\n' 
+                'Dùng để di chuyển hết toàn bộ danh sách người dùng đang bị theo dõi sang 1 kênh đích khác để xem log\n' +
+                '- **! audio** và reply 1 đoạn tin nhắn từ một đường link youtube\n' +
+                'Dùng để tải video ấy dưới dạng mp3, hoặc có thể gọi là tải nhạc từ youtube về\n'
     )
 }
 

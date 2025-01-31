@@ -1,9 +1,15 @@
 {
   "dependencies": {
+    "@distube/yt-dlp": "^2.0.1",
     "@huggingface/inference": "^2.8.1",
+    "axios": "^1.7.9",
     "discord.js": "^14.17.3",
     "dotenv": "^16.4.5",
+    "fs": "^0.0.1-security",
+    "nodemon": "^3.1.9",
     "openmeteo": "^1.1.4",
-    "translatte": "^3.0.1"
+    "translatte": "^3.0.1",
+    "yt-dlp-wrap": "^2.3.12",
+    "ytdl-core": "^4.11.5"
   }
 }

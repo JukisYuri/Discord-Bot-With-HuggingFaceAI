@@ -7,6 +7,7 @@ const { fetchLogDataChannelWithTarget } = require('./src/utilities/fetchdata_tar
 const { translateChat } = require('./src/utilities/translate.js')
 const tracker = require('./src/utilities/tracker.js');
 const { splitMessage } = require('./src/helper/split_message.js')
+const { convertMP3 } = require('./src/utilities/convertmp3_youtube.js')
 
 //-------------------------------------------------------------
 
@@ -107,6 +108,24 @@ client.on('messageCreate', async (message) => {
         console.log(`Language Suppose: ${translateSuppose}`)
 
         return translateChat(message, sourceMessageId, translateSuppose)
+        } catch (error) {
+            await message.reply("⚠️ Đã xảy ra lỗi khi bạn nhập, vui lòng nhập lại")
+            console.error(error)
+            return;
+        }
+    }
+
+    if (message.content.startsWith("! audio")){
+        // ! audio
+        await message.channel.sendTyping()
+
+        try {
+            if (message.reference?.messageId){
+            const referenceMessage = await message.channel.messages.fetch(message.reference.messageId)
+            const sourceLink = referenceMessage.content.trim()
+            console.log(`Source Video: ${sourceLink}`)
+            return convertMP3(sourceLink, message)
+            }
         } catch (error) {
             await message.reply("⚠️ Đã xảy ra lỗi khi bạn nhập, vui lòng nhập lại")
             console.error(error)
