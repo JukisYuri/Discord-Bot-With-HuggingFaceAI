@@ -1,30 +1,30 @@
 function tutorialForUsingBot(message){
-        message.reply('**Cách để sử dụng em cho đúng:**' + '\n' + '- Lệnh **! cách dùng** sẽ cho biết cách dùng'
-                                                    + '\n' + '- Lệnh **! thông tin chủ bot** sẽ cho biết thông tin về chủ bot'
-                                                    + '\n' + '- Lệnh **! thông tin về con bot** sẽ dẫn đến link github chứa mã nguồn của con bot'
+        message.reply('**Cách để sử dụng em cho đúng:**' + '\n' + '- Lệnh **!cách dùng** sẽ cho biết cách dùng'
+                                                    + '\n' + '- Lệnh **!thông tin chủ bot** sẽ cho biết thông tin về chủ bot'
+                                                    + '\n' + '- Lệnh **!thông tin về con bot** sẽ dẫn đến link github chứa mã nguồn của con bot'
     )
 }
 
 function tutorialUse(message){
     message.reply('Để dùng em, hãy sử dụng cú pháp sau:' + '\n' + '- **! {câu hỏi}**' + '\n' + 'VD: ! Java là gì?\n\n' +
-                '**Với các tiện ích:**\n' + 'Reply đoạn tin nhắn và nhập lệnh **! translate {ngôn ngữ}**\n' + 'VD: ! translate vi\n' +
-                '- **! fetch {ID kênh nguồn} to {ID kênh đích}**\n' + 
+                '**Với các tiện ích:**\n' + 'Reply đoạn tin nhắn và nhập lệnh **! translate {ngôn ngữ}**\n' + 'VD: !translate vi\n' +
+                '- **!fetch {ID kênh nguồn} to {ID kênh đích}**\n' + 
                 'Dùng để lấy log 100 tin nhắn gần nhất trên kênh nguồn được chỉ định\n' +
-                '- **! steal {ID người dùng} from {ID kênh nguồn} to {ID kênh đích}**\n' +
+                '- **!steal {ID người dùng} from {ID kênh nguồn} to {ID kênh đích}**\n' +
                 'Dùng để lấy log 100 tin nhắn gần nhất trên kênh nguồn và người dùng được chỉ định\n' +
-                '- **! track {ID người dùng} from {ID máy chủ} to {ID kênh đích}**\n' +
+                '- **!track {ID người dùng} from {ID máy chủ} to {ID kênh đích}**\n' +
                 'Dùng để theo dõi người dùng trên một máy chủ chỉ định\n' +
-                '- **! monitor-server {ID máy chủ} to {ID kênh đích}**\n' +
+                '- **!monitor-server {ID máy chủ} to {ID kênh đích}**\n' +
                 'Dùng để theo dõi __toàn bộ__ người dùng trong một máy chủ được chỉ định\n' +
-                '- **! untrack {ID người dùng}**\n' +
+                '- **!untrack {ID người dùng}**\n' +
                 'Dùng để huỷ bỏ một người dùng được chỉ định trong danh sách theo dõi\n' +
-                '- **! list-tracking**\n' +
+                '- **!list-tracking**\n' +
                 'Dùng để xem danh sách người dùng đang bị theo dõi dưới dạng ID\n' +
-                '- **! visual list-tracking**\n' +
+                '- **!visual list-tracking**\n' +
                 'Dùng để xem danh sách người dùng đang bị theo dõi dưới dạng trực quan\n' +
-                '- **! moveall list-tracking {ID kênh đích muốn chuyển tới}**\n' +
+                '- **!moveall list-tracking {ID kênh đích muốn chuyển tới}**\n' +
                 'Dùng để di chuyển hết toàn bộ danh sách người dùng đang bị theo dõi sang 1 kênh đích khác để xem log\n' +
-                '- **! audio** và reply 1 đoạn tin nhắn từ một đường link youtube\n' +
+                '- **!audio** và reply 1 đoạn tin nhắn từ một đường link youtube\n' +
                 'Dùng để tải video ấy dưới dạng mp3, hoặc có thể gọi là tải nhạc từ youtube về\n'
     )
 }

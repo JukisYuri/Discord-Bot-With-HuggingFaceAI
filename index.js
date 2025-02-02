@@ -27,36 +27,36 @@ let verificationCode
 client.on('messageCreate', async (message) => {
     if (message.author.bot) return;
     
-    if (message.content.startsWith("! help")){
+    if (message.content.startsWith("!help")){
         await message.channel.sendTyping()
         return tutorialForUsingBot(message) // vì bên kia reply nên truyền đối tượng message, ko phải message.content
     }
 
-    if (message.content.startsWith("! cách dùng")){
+    if (message.content.startsWith("!cách dùng")){
         await message.channel.sendTyping()
         return tutorialUse(message)
     }
 
-    if (message.content.startsWith("! thông tin chủ bot")){
+    if (message.content.startsWith("!thông tin chủ bot")){
         await message.channel.sendTyping()
         return informationAuthor(message)
     }
 
-    if (message.content.startsWith("! thông tin về con bot")){
+    if (message.content.startsWith("!thông tin về con bot")){
         await message.channel.sendTyping()
         return informationBot(message)
     }
 
-    if (message.content.startsWith("! steal")) { 
-        // ! steal 607183227911667746 from 1132656734251520023 to 1313376059030507590
+    if (message.content.startsWith("!steal")) { 
+        // !steal 607183227911667746 from 1132656734251520023 to 1313376059030507590
         const command = message.content.trim()
         const parts = command.split(/\s+/)
         await message.channel.sendTyping()
 
         try {
-        const targetId = parts[2]
-        const sourceChannelId = parts[4]
-        const destinateChannelId = parts[6]
+        const targetId = parts[1]
+        const sourceChannelId = parts[3]
+        const destinateChannelId = parts[5]
 
         console.log(`Target ID: ${targetId}`)
         console.log(`Source Channel ID: ${sourceChannelId}`)
@@ -66,23 +66,21 @@ client.on('messageCreate', async (message) => {
         } catch (error){
             await message.reply("⚠️ Đã xảy ra lỗi khi bạn nhập, vui lòng nhập lại")
             console.error(error)
-            return;
         }
     }
 
-    if (message.content.startsWith("! fetch")){
-        // ! fetch 1132656734251520023 to 1313376059030507590
+    if (message.content.startsWith("!fetch")){
+        // !fetch 1132656734251520023 to 1313376059030507590
         const command = message.content.trim()
         const parts = command.split(/\s+/)
         await message.channel.sendTyping()
 
         try {
-        const sourceChannelId = parts[2]
-        const destinateChannelId = parts[4]
+        const sourceChannelId = parts[1]
+        const destinateChannelId = parts[3]
 
         if (sourceChannelId == undefined || destinateChannelId == undefined){
             await message.reply("⚠️ Kiểu dữ liệu nhập vào không hợp lệ, vui lòng nhập lại")
-            return;
         }
         console.log(`Source Channel ID: ${sourceChannelId}`);
         console.log(`Destinate Channel ID: ${destinateChannelId}`);
@@ -91,19 +89,18 @@ client.on('messageCreate', async (message) => {
     } catch (error) {
         await message.reply("⚠️ Đã xảy ra lỗi khi bạn nhập, vui lòng nhập lại")
         console.error(error)
-        return;
     }
     }
 
-    if (message.content.startsWith("! translate")){
-        // ! translate vi
+    if (message.content.startsWith("!translate")){
+        // !translate vi
         const command = message.content.trim()
         const parts = command.split(/\s+/)
         await message.channel.sendTyping()
 
         try {
         const sourceMessageId = message.reference?.messageId; // Lấy sourceMessageId bằng cách reply
-        const translateSuppose = parts[2]
+        const translateSuppose = parts[1]
         console.log(`Source Message ID: ${sourceMessageId}`)
         console.log(`Language Suppose: ${translateSuppose}`)
 
@@ -111,12 +108,11 @@ client.on('messageCreate', async (message) => {
         } catch (error) {
             await message.reply("⚠️ Đã xảy ra lỗi khi bạn nhập, vui lòng nhập lại")
             console.error(error)
-            return;
         }
     }
 
-    if (message.content.startsWith("! audio")){
-        // ! audio
+    if (message.content.startsWith("!audio")){
+        // !audio
         await message.channel.sendTyping()
 
         try {
@@ -129,28 +125,26 @@ client.on('messageCreate', async (message) => {
         } catch (error) {
             await message.reply("⚠️ Đã xảy ra lỗi khi bạn nhập, vui lòng nhập lại")
             console.error(error)
-            return;
         }
     }
 
     // Lệnh để theo dõi người dùng trong 1 server nhất định hoặc global
-    if (message.content.startsWith("! track")){
-        // ! track <User ID> from <Server ID> to <Destinate Channel ID>
-        // ! track <User ID> from global to <Destinate Channel ID>
+    if (message.content.startsWith("!track")){
+        // !track <User ID> from <Server ID> to <Destinate Channel ID>
+        // !track <User ID> from global to <Destinate Channel ID>
         const command = message.content.trim()
         const parts = command.split(/\s+/)
         await message.channel.sendTyping()
 
         try {
-        const userId = parts[2]
-        const serverId = parts[4].toLocaleLowerCase()
-        const destinateChannelId = parts[6]
+        const userId = parts[1]
+        const serverId = parts[3].toLocaleLowerCase()
+        const destinateChannelId = parts[5]
 
         if ( trackedUsers.has(userId) 
             && ((serverId === "global" && trackedUsers.get(userId).serverId === "global") || trackedUsers.get(userId).serverId === serverId)
             && trackedUsers.get(userId).destinateChannelId === destinateChannelId) {  // Từ đối tượng userId lấy destinateChannelId
             await message.reply("⚠️ UserID này đã được theo dõi trước đó, không thể thêm vào nữa.");
-            return;
         } else {
         // Xử lý serverId là "global" hoặc server cụ thể
         const guildName = serverId === "global" ? "Tất cả server" : (await client.guilds.fetch(serverId)).name
@@ -161,17 +155,16 @@ client.on('messageCreate', async (message) => {
     } catch (error) {
         await message.reply("⚠️ Đã xảy ra lỗi khi bạn nhập, vui lòng nhập lại")
         console.error(error)
-        return;
     }
     }
 
-    if (message.content.startsWith("! monitor-server")){
-        // ! monitor-server <Server ID> to <Destinate Channel ID>
+    if (message.content.startsWith("!monitor-server")){
+        // !monitor-server <Server ID> to <Destinate Channel ID>
         const parts = message.content.trim().split(/\s+/)
         await message.channel.sendTyping()
         try {
-            const serverId = parts[2]
-            const destinateChannelId = parts[4]
+            const serverId = parts[1]
+            const destinateChannelId = parts[3]
 
             const guild = await client.guilds.fetch(serverId)
             const guildName = guild.name
@@ -191,12 +184,11 @@ client.on('messageCreate', async (message) => {
         } catch (error){
             console.error(error)
             await message.reply("⚠️ Đã xảy ra lỗi khi bạn nhập, vui lòng nhập lại")
-            return;
         }
     }
 
-    if (message.content.startsWith("! list-tracking")){
-        // ! list-tracking
+    if (message.content.startsWith("!list-tracking")){
+        // !list-tracking
         await message.channel.sendTyping()
         try {
         if (trackedUsers.size > 0){
@@ -208,19 +200,17 @@ client.on('messageCreate', async (message) => {
             for (const chunk of splitTracked){
                 await message.reply(chunk)
             }
-            return;
         } else {
             return message.reply("⚠️ Không có người nào được track")
         }
     } catch (error){
         await message.reply("⚠️ Đã xảy ra lỗi khi bạn nhập, vui lòng nhập lại")
         console.error(error)
-        return;
     }
     }
  
-    if (message.content.startsWith("! visual list-tracking")){
-        // ! visual list-tracking
+    if (message.content.startsWith("!visual list-tracking")){
+        // !visual list-tracking
         const author = await client.users.fetch(authorId)
         verificationCode = Math.floor(10000 + Math.random() * 90000).toString()
         // Gửi mã xác minh qua DM
@@ -228,7 +218,6 @@ client.on('messageCreate', async (message) => {
             try {
                 await author.send(`Mã xác minh của chủ nhân là: **${verificationCode}**`);
                 await message.reply("Mã xác minh đã được gửi vào DM của Author. Hãy kiểm tra và nhập mã dưới phần chat của em")
-                return;
             } catch (error) {
                 console.error("Không thể gửi tin nhắn DM:", error);
                 return message.reply("⚠️ Không thể gửi mã xác minh qua DM. Vui lòng thử lại.");
@@ -255,22 +244,20 @@ client.on('messageCreate', async (message) => {
                 for (const chunk of splitTracked){
                     await message.reply(chunk)
                 }
-                return;
             } else {
                 return message.reply("⚠️ Không có người nào được track")
             }
         } catch (error){
             await message.reply("⚠️ Đã xảy ra lỗi khi bạn nhập, vui lòng nhập lại")
             console.error(error)
-            return;
         }
     }
 
 
-    if (message.content.startsWith("! moveall list-tracking")){
-        // ! moveall list-tracking <Destinate Channel ID>
+    if (message.content.startsWith("!moveall list-tracking")){
+        // !moveall list-tracking <Destinate Channel ID>
         const parts = message.content.trim().split(/\s+/)
-        const newDestinateChannelId = parts[3]
+        const newDestinateChannelId = parts[2]
         await message.channel.sendTyping()
 
         try {
@@ -285,11 +272,11 @@ client.on('messageCreate', async (message) => {
     } catch (error) {
         await message.reply("⚠️ Đã xảy ra lỗi khi bạn nhập, vui lòng nhập lại")
         console.error(error)
-        return;
 }
 }
 
-    if (message.content.startsWith("! reset list-tracking")){
+    if (message.content.startsWith("!reset list-tracking")){
+        // !reset list-tracking
         await message.channel.sendTyping()
         try {
         if (trackedUsers.size > 0){
@@ -301,19 +288,18 @@ client.on('messageCreate', async (message) => {
     } catch (error){
         await message.reply("⚠️ Đã xảy ra lỗi khi bạn nhập, vui lòng nhập lại")
         console.error(error)
-        return;
     }
     }
 
     // Lệnh để hủy theo dõi người dùng
-    if (message.content.startsWith("! untrack")) {
-        // ! untrack <User ID>
+    if (message.content.startsWith("!untrack")) {
+        // !untrack <User ID>
         const command = message.content.trim()
         const parts = command.split(/\s+/)
         await message.channel.sendTyping()
 
         try {
-        const userId = parts[2];
+        const userId = parts[1]
         console.log(`User ID cần xóa: ${userId}`)
         if (trackedUsers.has(userId)) {
             trackedUsers.delete(userId)
@@ -321,11 +307,9 @@ client.on('messageCreate', async (message) => {
         } else {
             await message.reply(`⚠️ Không tìm thấy người dùng ${userId} trong danh sách theo dõi.`);
         }
-        return;
     } catch {
         await message.reply("⚠️ Đã xảy ra lỗi khi bạn nhập, vui lòng nhập lại")
         console.error(error)
-        return;
     }
 }   
 
