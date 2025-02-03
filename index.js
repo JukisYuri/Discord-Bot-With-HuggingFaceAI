@@ -8,25 +8,72 @@ const { translateChat } = require('./src/utilities/translate.js')
 const tracker = require('./src/utilities/tracker.js');
 const { splitMessage } = require('./src/helper/split_message.js')
 const { convertMP3 } = require('./src/utilities/convertmp3_youtube.js')
+const { saveData, setupAutoSave } = require('./src/helper/savedata.js')
 
-//-------------------------------------------------------------
+const fs = require('fs')
+const path = './src/data/trackedUsers.json';  // file lưu dữ liệu
+
+//---------------------------------------------------------------
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers],
 })
 
+const trackedUsers = new Map() // Khai báo quan trọng nhất của track
+// Load dữ liệu, nếu trống thì bỏ qua
+if (fs.existsSync(path)) {
+    const rawData = fs.readFileSync(path, 'utf8');
+
+    // Nếu file trống thì bỏ qua không parse
+    if (rawData.trim().length > 0) {
+        try {
+            const savedData = JSON.parse(rawData);
+            savedData.forEach(([userId, info]) => {
+                trackedUsers.set(userId, info);
+            });
+            console.log('✅ Dữ liệu đã được nạp lại từ file trackedUsers.json');
+        } catch (err) {
+            console.error('❌ Lỗi khi phân tích file trackedUsers.json:', err.message);
+        }
+    } else {
+        console.log('⚠️ File trackedUsers.json trống, chưa có dữ liệu để nạp.');
+    }
+} else {
+    console.log('📂 Chưa có file trackedUsers.json. Dữ liệu sẽ được tạo khi bạn dùng !track.');
+}
+
+
 client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
     client.user.setActivity('Happy Lunar New Year', { type: ActivityType.Watching })
+    setupAutoSave(trackedUsers, path); // Mỗi lần ready, sẽ nạp vào từ folder data
 })
 
+//---------------------------------------------------------------
+
 const authorId = "607183227911667746"
-const trackedUsers = new Map() 
 tracker(client, trackedUsers)
 let verificationCode
+
+//-------------------------------------------------------------
+
 client.on('messageCreate', async (message) => {
     if (message.author.bot) return;
-    
+
+    if (message.content.trim() === "!restart") {
+        if (fs.existsSync(path)) {
+            const rawData = fs.readFileSync(path, 'utf8');
+            const savedData = JSON.parse(rawData);
+            trackedUsers.clear();
+            savedData.forEach(([userId, info]) => {
+                trackedUsers.set(userId, info);
+            });
+            await message.reply("🔄 Dữ liệu đã được nạp lại thành công!");
+        } else {
+            await message.reply("⚠️ Không tìm thấy file dữ liệu để nạp lại.");
+        }
+    }
+
     if (message.content.startsWith("!help")){
         await message.channel.sendTyping()
         return tutorialForUsingBot(message) // vì bên kia reply nên truyền đối tượng message, ko phải message.content
@@ -150,6 +197,7 @@ client.on('messageCreate', async (message) => {
         const guildName = serverId === "global" ? "Tất cả server" : (await client.guilds.fetch(serverId)).name
 
         trackedUsers.set(userId, {serverId, destinateChannelId})
+        saveData(trackedUsers, path);
         return message.channel.send(`✅ Đã theo dõi người dùng được chỉ định thành công trong **${guildName}**`)
         }
     } catch (error) {
@@ -180,6 +228,7 @@ client.on('messageCreate', async (message) => {
                     });
                 }
             });
+            saveData(trackedUsers, path);
             return message.reply(`✅ Đã theo dõi thành công toàn bộ tất cả thành viên trong **${guildName}**`)
         } catch (error){
             console.error(error)
@@ -267,6 +316,7 @@ client.on('messageCreate', async (message) => {
                 // value là { serverId, destinateChannelId }
                 trackedUsers.set(key, { ...value, destinateChannelId: newDestinateChannelId })
             });
+            saveData(trackedUsers, path);
         return message.reply("✅ Đã di chuyển hết toàn bộ các UserID chuyển sang kênh đích mới")
     }
     } catch (error) {
@@ -281,6 +331,7 @@ client.on('messageCreate', async (message) => {
         try {
         if (trackedUsers.size > 0){
             trackedUsers.clear()
+            saveData(trackedUsers, path)
             return message.reply("✅ Đã xoá hết dữ liệu trong list-tracking")
         } else {
             return message.reply("⚠️ Không có dữ liệu nào được tìm thấy")
@@ -307,6 +358,7 @@ client.on('messageCreate', async (message) => {
         } else {
             await message.reply(`⚠️ Không tìm thấy người dùng ${userId} trong danh sách theo dõi.`);
         }
+        saveData(trackedUsers, path);
     } catch {
         await message.reply("⚠️ Đã xảy ra lỗi khi bạn nhập, vui lòng nhập lại")
         console.error(error)
