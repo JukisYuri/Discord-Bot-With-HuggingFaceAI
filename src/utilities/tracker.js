@@ -23,15 +23,19 @@ module.exports = (client, trackedUsers) => {
                 preventMentionRole(message)
                 preventMentionEveryone(message)
                 // logMessage tùy thuộc vào serverId
-                let logMessage
+                let logMessage = ""
+                if (message.reference?.messageId){
+                    const referenceMessage = await message.channel.messages.fetch(message.reference.messageId)
+                    logMessage += `_**${message.author.username}** replying to **${referenceMessage.author.username}: ${referenceMessage.content || ""}**_\n`
+                }
                 if (ghostMode){
-                    logMessage =
+                    logMessage +=
                             trackedInfo.serverId === "global"
                                     ? `__GB__ **${message.author.username}**: ${message.content}\n`
                                     : `**${message.author.username}**: ${message.content}\n`
                     logMessage += sendAttachment(message)
                 } else {
-                        logMessage =
+                        logMessage +=
                             trackedInfo.serverId === "global"
                                     ? `__GB__ [${message.createdAt.toLocaleString("vi-VN", {
                                           timeZone: "Asia/Ho_Chi_Minh",
