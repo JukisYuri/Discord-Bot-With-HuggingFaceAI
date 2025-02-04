@@ -1,5 +1,5 @@
 function sendAttachment(msg) {
-    if (!msg.attachments || !msg || msg.attachments.size === 0){
+    if (!msg || !msg.attachments || msg.attachments.size === 0){
         return ''
     }
     let attachmentLinks = ''
