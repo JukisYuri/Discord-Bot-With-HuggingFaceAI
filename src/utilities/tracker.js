@@ -31,13 +31,13 @@ module.exports = (client, trackedUsers) => {
                 if (ghostMode){
                     logMessage +=
                             trackedInfo.serverId === "global"
-                                    ? `__GB__ **${message.author.username}**: ${message.content}\n`
+                                    ? `🌐 **${message.author.username}**: ${message.content}\n`
                                     : `**${message.author.username}**: ${message.content}\n`
                     logMessage += sendAttachment(message)
                 } else {
                         logMessage +=
                             trackedInfo.serverId === "global"
-                                    ? `__GB__ [${message.createdAt.toLocaleString("vi-VN", {
+                                    ? `🌐 [${message.createdAt.toLocaleString("vi-VN", {
                                           timeZone: "Asia/Ho_Chi_Minh",
                                       })} | ${message.guild.name} | ${message.channel.name}] **${message.author.username}**: ${message.content}\n`
                                     : `[${message.createdAt.toLocaleString("vi-VN", {
@@ -47,11 +47,19 @@ module.exports = (client, trackedUsers) => {
                 }
                 const sentMessage = await destinateChannel.send(logMessage)
 
-                // Track thêm thông tin về server và channel hiện tại của người bị theo dõi
-                trackedInfo.lastMessageId = sentMessage.id; // ID của tin nhắn log bot đã gửi
-                trackedInfo.lastGuildId = message.guild.id; // ID của server người bị track đang hoạt động
-                trackedInfo.lastChannelId = message.channel.id; // ID của kênh người bị track đang hoạt động
-                trackedInfo.lastOriginalMessageId = message.id; // ID của tin nhắn gốc mà người bị theo dõi gửi
+                if (!trackedInfo.messages){
+                    trackedInfo.messages = []
+                }
+
+                // Lưu lại tin nhắn vào danh sách
+                trackedInfo.messages.push({
+                    originalMessageId: message.id, // ID tin nhắn gốc của user bị track
+                    trackedMessageId: sentMessage.id, // ID tin nhắn bot đã log
+                    guildId: message.guild.id,
+                    channelId: message.channel.id,
+                    username: message.author.username,
+                    content: message.content,
+                });
 
             } catch (error) {
                 console.error('Lỗi khi gửi log tin nhắn:', error)
@@ -59,26 +67,33 @@ module.exports = (client, trackedUsers) => {
         }
     });
 
-    client.on('messageCreate', async (message) => {
+    client.on("messageCreate", async (message) => {
         if (message.reference?.messageId) {
-            const trackedUser = Array.from(trackedUsers.values()).find(user => user.lastMessageId === message.reference.messageId);
-    
+            // Tìm người dùng có tin nhắn bị reply trong danh sách trackedUsers
+            const trackedUser = Array.from(trackedUsers.values()).find(user =>
+                user.messages && user.messages.some(msg => msg.trackedMessageId === message.reference.messageId)
+            );
+
             if (trackedUser) {
                 try {
-                    // Fetch kênh mà người bị track đang hoạt động
-                    const userActiveChannel = await client.channels.fetch(trackedUser.lastChannelId);
-    
+                    // Tìm tin nhắn gốc trong danh sách
+                    const originalMessageInfo = trackedUser.messages.find(msg => msg.trackedMessageId === message.reference.messageId);
+                    if (!originalMessageInfo) return;
+
+                    // Fetch kênh mà người bị track đã gửi tin nhắn
+                    const userActiveChannel = await client.channels.fetch(originalMessageInfo.channelId);
+
                     // Fetch tin nhắn gốc để lấy nội dung và username
-                    const originalMessage = await userActiveChannel.messages.fetch(trackedUser.lastOriginalMessageId);
-    
+                    const originalMessage = await userActiveChannel.messages.fetch(originalMessageInfo.originalMessageId);
+
                     // Giả lập reply bằng cách chèn thông tin tin nhắn gốc
                     let replyMessage = `***${message.author.username}*** *reply từ server* ***${message.guild.name}*** *tới* ***"${originalMessage.author.toString()}: ${originalMessage.content || "[No content]"}*** " với nội dung\n\n${message.content}`;
-                    replyMessage += sendAttachment(message)
+                    replyMessage += sendAttachment(message);
                     await userActiveChannel.send(replyMessage);
                 } catch (error) {
-                    console.error('Lỗi khi gửi reply:', error);
+                    console.error("Lỗi khi gửi reply:", error);
                 }
             }
         }
-    });       
-}
+    });
+};
