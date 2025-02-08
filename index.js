@@ -20,6 +20,7 @@ const { setupAutoSave } = require('./src/helper/savedata.js')
 const { dataLoad } = require('./src/data/loadData.js')
 //----------Others-----------------
 const { prompt } = require('./src/AI_prompt.js')
+const { checkRole } = require('./src/command/checkrole.js')
 const path = './src/data/trackedUsers.json';  // file lưu dữ liệu
 
 //---------------------------------------------------------------
@@ -67,6 +68,8 @@ client.on('messageCreate', async (message) => {
     moveallListTracking(message, trackedUsers, path) //
     untrack(message, trackedUsers, path) //
     resetListTracking(message, trackedUsers, path) //
+
+    checkRole(message)
 
     try {
         if(message.content.startsWith("! ")){
