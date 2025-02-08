@@ -87,7 +87,7 @@ module.exports = (client, trackedUsers) => {
                     const originalMessage = await userActiveChannel.messages.fetch(originalMessageInfo.originalMessageId);
 
                     // Giả lập reply bằng cách chèn thông tin tin nhắn gốc
-                    let replyMessage = `***${message.author.username}*** *reply từ server* ***${message.guild.name}*** *tới* ***"${originalMessage.author.toString()}: ${originalMessage.content || "[No content]"}*** " với nội dung\n\n${message.content}`;
+                    let replyMessage = `***${message.author.username}*** *reply từ server* ***${message.guild.name}*** *tới* ***"${originalMessage.author.toString()}: ${originalMessage.content || "[No content]"}*** " *với nội dung*\n${message.content}`;
                     replyMessage += sendAttachment(message);
                     await userActiveChannel.send(replyMessage);
                 } catch (error) {
