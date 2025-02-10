@@ -35,7 +35,8 @@ dataLoad()
 
 client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    client.user.setActivity('Happy Lunar New Year', { type: ActivityType.Watching })
+    client.user.setActivity('khởi đầu với !help hoặc !cách dùng', { type: ActivityType.Watching }),
+    client.user.setPresence({ status: 'idle' })
     setupAutoSave(trackedUsers, path); // Mỗi lần ready, sẽ nạp vào từ folder data
 })
 

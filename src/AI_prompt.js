@@ -5,7 +5,7 @@ const hf = new HfInference(process.env.HUGGINGFACE_TOKEN);
 
 async function prompt(message) {
   const messageContent = message.content.replace("! ", "");
-  await message.channel.sendTyping();
+  message.channel.sendTyping();
   const response = await hf.textGeneration({
     model: "Qwen/Qwen2.5-Coder-32B-Instruct",
     inputs: messageContent,

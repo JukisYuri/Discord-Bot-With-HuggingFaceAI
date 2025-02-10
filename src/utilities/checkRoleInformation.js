@@ -70,12 +70,14 @@ async function checkRoleInformation(message, roleId) {
 
         const roleInfo = `**📇 Thông tin Role:**\n` +
         `- **Tên:** ${role.name}\n` +
-        `- **ID:** ${roleId}\n` +
+        `- **ID:** ${role.id}\n` +
+        `- **Thuộc guild:** ${role.guild}\n` +
         `- **Ngày được tạo:** ${role.createdAt.toLocaleDateString("vi-VN")}\n` +
-        `- **Màu sắc:** ${role.hexColor}\n` +
+        `- **Mã màu:** ${role.hexColor}\n` +
+        `- **Bot có thể chỉnh sửa role:** ${role.editable ? 'có' : 'không'}\n` +
         `- **Vai trò riêng biệt:** ${role.hoist ? 'có' : 'không'}\n` +
         `- **Có thể được mention:** ${role.mentionable ? 'có' : 'không'}\n` +
-        `- **Vị trí trong server:** ${displayPositionRole}\n` +
+        `- **Vị trí trong guild:** ${displayPositionRole}\n` +
         `- **Role cao hơn:** ${higherRole}\n` +
         `- **Role thấp hơn:** ${lowerRole}\n` +
         `- **Quyền hạn:** ${permissionsText}\n` +
