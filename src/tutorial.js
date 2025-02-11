@@ -25,7 +25,9 @@ function tutorialUse(message){
                 '- **!moveall list-tracking {ID kênh đích muốn chuyển tới}**\n' +
                 'Dùng để di chuyển hết toàn bộ danh sách người dùng đang bị theo dõi sang 1 kênh đích khác để xem log\n' +
                 '- **!role {ID role}**\n' +
-                'Dùng để xem thông tin về role\n'
+                'Dùng để xem thông tin về role\n' +
+                '- **!user {ID user}**\n' +
+                'Dùng để xem thông tin người dùng\n'
     )
 }
 

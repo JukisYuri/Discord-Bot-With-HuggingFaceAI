@@ -12,6 +12,8 @@ const { moveallListTracking } = require('./src/command/moveall_list.js');
 const { listTracking, visualListTracking } = require('./src/command/listtracking.js');
 const { help, cachdung, thongtinAuthor, thongtinBot } = require('./src/command/help.js')
 const { fetchLog } = require('./src/command/fetch.js')
+const { checkRole } = require('./src/command/checkrole.js')
+const { checkUser } = require('./src/command/checkuser.js')
 //----------Utilities--------------
 const tracker = require('./src/utilities/tracker.js');
 //----------Helpers----------------
@@ -20,7 +22,6 @@ const { setupAutoSave } = require('./src/helper/savedata.js')
 const { dataLoad } = require('./src/data/loadData.js')
 //----------Others-----------------
 const { prompt } = require('./src/AI_prompt.js')
-const { checkRole } = require('./src/command/checkrole.js')
 const path = './src/data/trackedUsers.json';  // file lưu dữ liệu
 
 //---------------------------------------------------------------
@@ -70,7 +71,8 @@ client.on('messageCreate', async (message) => {
     untrack(message, trackedUsers, path) //
     resetListTracking(message, trackedUsers, path) //
 
-    checkRole(message)
+    checkRole(message) //
+    checkUser(message)
 
     try {
         if(message.content.startsWith("! ")){
