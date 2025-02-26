@@ -1,14 +1,25 @@
+const { EmbedBuilder } = require("discord.js")
 const translatte = require("translatte")
 
 async function translateChat(message, sourceMessageId, languageSuppose){
     try{
     const sourceMessage = await message.channel.messages.fetch(sourceMessageId)
-    const result = await translatte(sourceMessage.content, {to : languageSuppose})
+    const originalText = sourceMessage.content
+    const result = await translatte(originalText, {to : languageSuppose})
 
-    await message.reply(result.text)
+    // Tạo embed
+    const embed = new EmbedBuilder()
+        .setTitle("TRANSLATE RESULT:")
+        .addFields(
+                    {name: 'BEFORE', value: originalText},
+                    {name: 'AFTER', value: result.text }
+        )
+        .setColor('Random')
+
+        await message.reply({ embeds: [embed] })
     } catch (error){
-        console.log(error)
-        await message.reply("Ngôn ngữ không hỗ trợ hoặc bạn nhập sai")
+        console.error(error)
+        await message.reply("Ngôn ngữ không hỗ trợ hoặc bạn đã nhập sai")
     }
 }
 
