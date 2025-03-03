@@ -14,6 +14,7 @@ const { help, cachdung, thongtinAuthor, thongtinBot } = require('./src/command/h
 const { fetchLog } = require('./src/command/fetch.js')
 const { checkRole } = require('./src/command/checkrole.js')
 const { checkUser } = require('./src/command/checkuser.js')
+const { tracking_translate } = require('./src/command/tracking_translate.js')
 //----------Utilities--------------
 const tracker = require('./src/utilities/tracker.js');
 //----------Helpers----------------
@@ -27,7 +28,7 @@ const path = './src/data/trackedUsers.json';  // file lưu dữ liệu
 //---------------------------------------------------------------
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers],
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers, GatewayIntentBits.DirectMessages],
 })
 
 const trackedUsers = new Map() // Khai báo quan trọng nhất của track
@@ -59,7 +60,8 @@ client.on('messageCreate', async (message) => {
 
     steal(message, client) // 
     fetchLog(message, client) //
-
+    
+    tracking_translate(message, client)
     translate(message) // 
 
     track(message, trackedUsers, path) // 
@@ -72,7 +74,7 @@ client.on('messageCreate', async (message) => {
     resetListTracking(message, trackedUsers, path) //
 
     checkRole(message) //
-    checkUser(message)
+    checkUser(message) //
 
     try {
         if(message.content.startsWith("! ")){
