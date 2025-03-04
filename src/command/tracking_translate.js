@@ -3,7 +3,6 @@ let switchTracking = false
 let destinateChannelId = null
 
 async function tracking_translate(message, client){
-    await message.channel.sendTyping()
     try {
     if (message.content.startsWith("!trans-watch")){
         const parts = message.content.trim().split(/\s+/)
