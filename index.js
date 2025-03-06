@@ -28,12 +28,16 @@ const path = './src/data/trackedUsers.json';  // file lưu dữ liệu
 //---------------------------------------------------------------
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers, GatewayIntentBits.DirectMessages],
+    intents: [GatewayIntentBits.Guilds, 
+            GatewayIntentBits.GuildMessages, 
+            GatewayIntentBits.MessageContent, 
+            GatewayIntentBits.GuildMembers, 
+            GatewayIntentBits.DirectMessages],
 })
 
 const trackedUsers = new Map() // Khai báo quan trọng nhất của track
 // Load dữ liệu
-dataLoad()
+dataLoad(trackedUsers)
 
 client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);

@@ -27,7 +27,9 @@ function tutorialUse(message){
                 '- **!role {ID role}**\n' +
                 'Dùng để xem thông tin về role\n' +
                 '- **!user {ID user}**\n' +
-                'Dùng để xem thông tin người dùng\n'
+                'Dùng để xem thông tin người dùng\n' +
+                '- **!trans-watch {ID kênh}**\n' +
+                'Dùng để tracking dịch theo tin nhắn đã gửi, ID kênh là giới hạn trong phạm vi tracking'
     )
 }
 

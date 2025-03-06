@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = './src/data/trackedUsers.json';  // file lưu dữ liệu
 
-function dataLoad(){
+function dataLoad(trackedUsers){
 // Load dữ liệu, nếu trống thì bỏ qua
 if (fs.existsSync(path)) {
     const rawData = fs.readFileSync(path, 'utf8');
@@ -10,6 +10,7 @@ if (fs.existsSync(path)) {
     if (rawData.trim().length > 0) {
         try {
             const savedData = JSON.parse(rawData);
+            trackedUsers.clear()
             savedData.forEach(([userId, info]) => {
                 trackedUsers.set(userId, info);
             });

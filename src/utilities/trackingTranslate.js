@@ -12,7 +12,7 @@ async function trackingTranslate(message, client, destinateChannelId) {
     const [resultJa, resultEn, resultVi] = await Promise.all([
         translatte(originalText, { to: "ja" }),
         translatte(originalText, { to: "en" }),
-        translatte(originalText, { to: "vi"})
+        translatte(originalText, { to: "vi"}),
     ]);
 
     let embed = new EmbedBuilder()
