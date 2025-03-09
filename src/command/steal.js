@@ -12,6 +12,10 @@ async function steal(message, client) {
         const sourceChannelId = parts[3]
         const destinateChannelId = parts[5]
 
+        if (!targetId || !sourceChannelId || !destinateChannelId){
+            await message.reply("Bạn đã nhập sai cú pháp, hãy nhập lại")
+            return;
+        }
         console.log(`Target ID: ${targetId}`)
         console.log(`Source Channel ID: ${sourceChannelId}`)
         console.log(`Destinate Channel ID: ${destinateChannelId}`)

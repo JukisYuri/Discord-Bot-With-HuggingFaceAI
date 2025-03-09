@@ -18,6 +18,8 @@ async function trackingTranslate(message, client, destinateChannelId) {
     let embed = new EmbedBuilder()
     .setTitle("TRANSLATE RESULT (TRACKING)")
     .setColor('Green')
+    .setAuthor({name: "JukisYuri", iconURL: "https://i.pinimg.com/736x/a6/5b/f8/a65bf8df63a78de7caa492c077504331.jpg"})
+    .setFooter({text: 'Inspired By まんば(モザンビーク)/mamba_rev'})
     if (originalText.toLowerCase().trim() === resultEn.text.toLowerCase().trim()){
         embed.addFields({name: "JAPANESE", value: resultJa.text},
                         {name: "VIETNAMESE", value: resultVi.text}

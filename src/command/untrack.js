@@ -10,6 +10,10 @@ async function untrack(message, trackedUsers, path) {
 
         try {
         const userId = parts[1]
+        if (!userId){
+            await message.reply("Bạn đã nhập sai cú pháp, hãy nhập lại")
+            return;
+        }
         console.log(`User ID cần xóa: ${userId}`)
         if (trackedUsers.has(userId)) {
             trackedUsers.delete(userId)

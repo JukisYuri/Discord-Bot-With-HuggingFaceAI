@@ -10,6 +10,10 @@ async function translate(message) {
         try {
         const sourceMessageId = message.reference?.messageId; // Lấy sourceMessageId bằng cách reply
         const translateSuppose = parts[1]
+        if (!translateSuppose){
+            await message.reply("Hãy chọn ngôn ngữ phù hợp để dịch")
+            return;
+        }
         console.log(`Source Message ID: ${sourceMessageId}`)
         console.log(`Language Suppose: ${translateSuppose}`)
 

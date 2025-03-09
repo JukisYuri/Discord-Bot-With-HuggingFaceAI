@@ -6,6 +6,10 @@ async function checkRole(message){
         await message.channel.sendTyping()
         try{
             const roleId = parts[1]
+            if (!roleId){
+                await message.reply("Bạn đã nhập sai cú pháp, hãy nhập lại")
+                return;
+            }
             console.log("ID Role: " + roleId)
 
             return checkRoleInformation(message, roleId)

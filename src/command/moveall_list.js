@@ -5,6 +5,10 @@ async function moveallListTracking(message, trackedUsers, path) {
         // !moveall list-tracking <Destinate Channel ID>
         const parts = message.content.trim().split(/\s+/)
         const newDestinateChannelId = parts[2]
+        if (!newDestinateChannelId){
+            await message.reply("Bạn đã nhập sai cú pháp, hãy nhập lại")
+            return;
+        }
         await message.channel.sendTyping()
 
         try {

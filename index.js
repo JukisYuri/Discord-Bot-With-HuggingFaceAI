@@ -15,6 +15,7 @@ const { fetchLog } = require('./src/command/fetch.js')
 const { checkRole } = require('./src/command/checkrole.js')
 const { checkUser } = require('./src/command/checkuser.js')
 const { tracking_translate } = require('./src/command/tracking_translate.js')
+// const { secretMessage } = require('./src/command/secretmessage.js')
 //----------Utilities--------------
 const tracker = require('./src/utilities/tracker.js');
 //----------Helpers----------------
@@ -23,6 +24,7 @@ const { setupAutoSave } = require('./src/helper/savedata.js')
 const { dataLoad } = require('./src/data/loadData.js')
 //----------Others-----------------
 const { prompt } = require('./src/AI_prompt.js')
+const { hiddenLyric } = require('./src/command/hiddenLyric.js')
 const path = './src/data/trackedUsers.json';  // file lưu dữ liệu
 
 //---------------------------------------------------------------
@@ -65,7 +67,7 @@ client.on('messageCreate', async (message) => {
     steal(message, client) // 
     fetchLog(message, client) //
     
-    tracking_translate(message, client)
+    tracking_translate(message, client) // 
     translate(message) // 
 
     track(message, trackedUsers, path) // 
@@ -79,6 +81,10 @@ client.on('messageCreate', async (message) => {
 
     checkRole(message) //
     checkUser(message) //
+
+    hiddenLyric(message)
+
+    // secretMessage(message, client)
 
     try {
         if(message.content.startsWith("! ")){

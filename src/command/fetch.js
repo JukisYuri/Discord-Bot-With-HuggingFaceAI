@@ -11,9 +11,9 @@ async function fetchLog(message, client) {
         try {
         const sourceChannelId = parts[1]
         const destinateChannelId = parts[3]
-
-        if (sourceChannelId == undefined || destinateChannelId == undefined){
-            await message.reply("⚠️ Kiểu dữ liệu nhập vào không hợp lệ, vui lòng nhập lại")
+        if (!sourceChannelId || !destinateChannelId){
+            await message.reply("Bạn đã nhập sai cú pháp, hãy nhập lại")
+            return;
         }
         console.log(`Source Channel ID: ${sourceChannelId}`);
         console.log(`Destinate Channel ID: ${destinateChannelId}`);

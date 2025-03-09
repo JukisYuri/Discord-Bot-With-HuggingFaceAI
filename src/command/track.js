@@ -11,13 +11,18 @@ async function track(message, trackedUsers, path) {
 
         try {
         const userId = parts[1]
-        const serverId = parts[3].toLocaleLowerCase()
+        const serverId = parts[3]
         const destinateChannelId = parts[5]
+        if (!userId || !serverId || !destinateChannelId){
+            await message.reply("Bạn đã nhập sai cú pháp, hãy nhập lại")
+            return;
+        }
 
         if ( trackedUsers.has(userId) 
             && ((serverId === "global" && trackedUsers.get(userId).serverId === "global") || trackedUsers.get(userId).serverId === serverId)
             && trackedUsers.get(userId).destinateChannelId === destinateChannelId) {  // Từ đối tượng userId lấy destinateChannelId
-            await message.reply("⚠️ UserID này đã được theo dõi trước đó, không thể thêm vào nữa.");
+            await message.reply("⚠️ UserID này đã được theo dõi trước đó, không thể thêm vào nữa.")
+            return;
         } else {
         // Xử lý serverId là "global" hoặc server cụ thể
         const guildName = serverId === "global" ? "Tất cả server" : (await client.guilds.fetch(serverId)).name

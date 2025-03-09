@@ -7,6 +7,10 @@ async function tracking_translate(message, client){
     if (message.content.startsWith("!trans-watch")){
         const parts = message.content.trim().split(/\s+/)
         destinateChannelId = parts[1]
+        if (!destinateChannelId){
+            await message.reply("Bạn đã nhập sai cú pháp, hãy nhập lại với ID kênh hợp lệ")
+            return;
+        }
         switchTracking = !switchTracking
         await message.reply(`Tracking translate đã được ${switchTracking ? "bật" : "tắt"}`)
         }

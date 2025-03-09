@@ -7,6 +7,10 @@ async function checkUser(message) {
         try {
 
         const userId = parts[1]
+        if (!userId){
+            await message.reply("Bạn đã nhập sai cú pháp, hãy nhập lại")
+            return;
+        }
         console.log(userId)
 
         return checkUserInformation(message, userId)

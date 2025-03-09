@@ -4,7 +4,7 @@ const fs = require('fs');
 function saveData(trackedUsers, path) {
     const dataToSave = Array.from(trackedUsers.entries());
     fs.writeFileSync(path, JSON.stringify(dataToSave, null, 2), 'utf8');
-    console.log('✅ Dữ liệu đã được lưu vào file trackedUsers.json');
+    console.log('✅ Saved trackedUsers.json');
 }
 
 function setupAutoSave(trackedUsers, path, interval = 3600000) { // Mặc định 1 tiếng
