@@ -1,6 +1,6 @@
 const { saveData } = require("../helper/savedata")
 
-async function track(message, trackedUsers, path) {
+async function track(message, client, trackedUsers, path) {
     // Lệnh để theo dõi người dùng trong 1 server nhất định hoặc global
     if (message.content.startsWith("!track")){
         // !track <User ID> from <Server ID> to <Destinate Channel ID>

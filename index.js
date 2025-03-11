@@ -70,7 +70,7 @@ client.on('messageCreate', async (message) => {
     tracking_translate(message, client) // 
     translate(message) // 
 
-    track(message, trackedUsers, path) // 
+    track(message, client, trackedUsers, path) // 
     server_track(message, trackedUsers, client, path) //
 
     listTracking(message, trackedUsers) //

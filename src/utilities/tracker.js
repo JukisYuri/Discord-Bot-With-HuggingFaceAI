@@ -85,14 +85,16 @@ module.exports = (client, trackedUsers) => {
                                     : `**${message.author.username}**: ${message.content}\n`
                     logMessage += sendAttachment(message)
                 } else {
+                    const defaultVNTime = `${message.createdAt.toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" })}`;
                         logMessage +=
                             trackedInfo.serverId === "global"
-                                    ? `🌐 [${message.createdAt.toLocaleString("vi-VN", {
-                                          timeZone: "Asia/Ho_Chi_Minh",
-                                      })} | ${message.guild.name} | ${message.channel.name}] **${message.author.username}**: ${message.content}\n`
-                                    : `[${message.createdAt.toLocaleString("vi-VN", {
-                                          timeZone: "Asia/Ho_Chi_Minh",
-                                      })} | ${message.guild.name} | ${message.channel.name}] **${message.author.username}**: ${message.content}\n`
+                                ? `(*) [\`${defaultVNTime}\`] **${message.guild.name} - ${message.channel.name}**\n` +
+                                `${message.author.username}: ${message.content}\n\n`
+                                : `[\`${defaultVNTime}\`] **${message.guild.name} - ${message.channel.name}**\n` +
+                                `${message.author.username}: ${message.content}\n\n`;
+                        
+                                // ? `🌐 [${message.createdAt.toLocaleString("vi-VN", {timeZone: "Asia/Ho_Chi_Minh",})} | ${message.guild.name} | ${message.channel.name}] **${message.author.username}**: ${message.content}\n`
+                                // : `[${message.createdAt.toLocaleString("vi-VN", {timeZone: "Asia/Ho_Chi_Minh",})} | ${message.guild.name} | ${message.channel.name}] **${message.author.username}**: ${message.content}\n`
                     logMessage += sendAttachment(message)
                 }
             }
@@ -143,7 +145,8 @@ module.exports = (client, trackedUsers) => {
                     const originalMessage = await userActiveChannel.messages.fetch(originalMessageInfo.originalMessageId);
 
                     // Giả lập reply bằng cách chèn thông tin tin nhắn gốc
-                    let replyMessage = `***${message.author.username}*** *reply từ server* ***${message.guild.name}*** *tới* ***"${originalMessage.author.toString()}: ${originalMessage.content || "[No content]"}*** " *với nội dung*\n${message.content}`;
+                    let originalReply = `↪ ${originalMessage.author.toString()}: ${originalMessage.content || ""}`
+                    let replyMessage = `${originalReply}\n \`${message.guild.name}\` **${message.author.username}**: ${message.content}`
                     replyMessage += sendAttachment(message);
                     await userActiveChannel.send(replyMessage);
                 } catch (error) {
