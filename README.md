@@ -20,13 +20,13 @@
 3. Cài đặt các Dependencies từ file package (bắt buộc phải cài NodeJS từ trước)
   ```sh
   npm install 
-  ``` 
-4. Khuyên dùng nodemon nếu bạn muốn code theo yêu cầu của bạn: https://www.npmjs.com/package/nodemon
-  ```sh
-  nodemon index.js
   ```
+4. Bắt đầu chạy bot thông qua lệnh 
+```sh
+node index.js
+```
 
-## Cách sử dụng
+## Một vài lưu ý
 1. Tệp index.js là tệp chính để khởi động con bot trong Discord
 2. Bạn có thể tự mình tiếp tục phát triển thêm dự án của chủ sở hữu hoặc contribute
 3. Tệp tutorial.js dùng để chứa những câu lệnh hướng dẫn cách dùng thông qua lệnh ! help
