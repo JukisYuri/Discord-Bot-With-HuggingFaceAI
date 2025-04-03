@@ -39,6 +39,6 @@ node index.js
 
 ## Lưu ý
 1. Bot được sử dụng model nguyên mẫu, không qua train model
-2. Sử dụng API đến từ DiscordJS, được viết hoàn toàn bằng JavaScript
+2. Sử dụng API đến từ DiscordJS, được viết hoàn toàn bằng NodeJS
 3. Model không thuộc quyền sở hữu của JukisYuri
 4. Có thể góp ý và trò chuyện với mình trên **Discord: jukisyuri**
