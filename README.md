@@ -1,7 +1,7 @@
 # Mục lục
 1. [Thông tin](#thông-tin)
 2. [Cấu hình Discord-Bot](#cấu-hình-discord-bot)
-3. [Cách sử dụng](#cách-sử-dụng)
+3. [Một vài thứ cần nói](#một-vài-thứ-cần-nói)
 4. [Lưu ý](#lưu-ý)
 
 ## Thông tin
@@ -26,7 +26,7 @@
 node index.js
 ```
 
-## Một vài lưu ý
+## Một vài thứ cần nói
 1. Tệp index.js là tệp chính để khởi động con bot trong Discord
 2. Bạn có thể tự mình tiếp tục phát triển thêm dự án của riêng bạn sau khi clone về (vì đây là mã nguồn mở) hoặc contribute thêm tại repo này
 3. Tệp tutorial.js dùng để chứa những câu lệnh hướng dẫn cách dùng thông qua lệnh ! help
